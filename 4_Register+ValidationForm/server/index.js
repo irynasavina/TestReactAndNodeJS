@@ -35,6 +35,13 @@ app.get('/get-roles', function(req, res) {
     res.end();
 });
 
+app.get('/logout', function(req, res) {
+    let result = session.removeSession(req.query.sessionID);
+    res.writeHead(200, {"Content-Type": "text/json; charset=utf-8"});
+    res.write(JSON.stringify(result));
+    res.end();
+});
+
 app.listen(app.get('port'),
     function() {
         console.log('Server started: http://localhost:' + app.get('port') + '/');

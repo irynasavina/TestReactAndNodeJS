@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import Login from '../components/login';
+import RegisterForm from '../components/registerForm';
 import Roles from '../utils/roles';
+import Ajax from '../utils/ajax';
+import Session from '../utils/session';
 
 class Home extends Component {
     state = {
@@ -18,15 +21,33 @@ class Home extends Component {
         }
     }
 
+    logoutHandler = async () => {
+        let response = await Ajax.get('logout', 'sessionID=' + encodeURIComponent(Session.getSessionID()));
+        let data = JSON.parse(response);
+        console.log(data);
+        Session.removeSession();
+        this.setState({ isUser: false });
+        if (this.props.onLogin) {
+            this.props.onLogin([])
+        }
+    }
+
     render() {
         let login = null;
+        let registerForm = null;
+        let logout = null;
         if (!this.state.isUser) {
             login = (<Login onLogin={this.loginHandler}/>);
+            registerForm = (<RegisterForm/>);
+        } else {
+            logout = (<input type="button" value="Logout" onClick={this.logoutHandler}/>);
         }
         return (
             <div>
                 <h1>Home</h1>
                 {login}
+                {registerForm}
+                {logout}
             </div>
         );
     }

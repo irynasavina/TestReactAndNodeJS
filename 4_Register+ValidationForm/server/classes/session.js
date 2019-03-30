@@ -1,12 +1,11 @@
-const session = new Object();
+const session = new Map();
 
 newSession = function (sessionID, userId, login, roles) {
-    session[sessionID] = { userId: userId, login: login, roles: roles };
-    console.log(session[sessionID]);
+    session.set(sessionID, { userId: userId, login: login, roles: roles });
 }
 
 getSession = function (sessionID) {
-    return session[sessionID];
+    return session.get(sessionID);
 }
 
 getSessionRoles = function(sessionID) {
@@ -21,6 +20,18 @@ getSessionRoles = function(sessionID) {
     return result;
 }
 
+removeSession = function(sessionID) {
+    let result = {};
+    if (session.has(sessionID)) {
+        result.error = false;
+        session.delete(sessionID);
+    } else {
+        result.error = true;
+    }
+    return result;
+}
+
 exports.newSession = newSession;
 exports.getSession = getSession;
 exports.getSessionRoles = getSessionRoles;
+exports.removeSession = removeSession;
