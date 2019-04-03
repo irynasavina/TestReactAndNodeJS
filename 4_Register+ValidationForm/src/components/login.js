@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import Cookies from 'universal-cookie';
 
 import Ajax from '../utils/ajax';
-import '../components/login.css';
+import TextInput from '../components/controls/textInput';
+import '../components/style.css';
 
 export default class login extends Component {
     state = {
@@ -12,12 +13,14 @@ export default class login extends Component {
         message: ""
     }
     
-    changeLogin = (event) => {
-        this.setState({ login: event.target.value });
+    changeLogin = (value) => {
+        console.log(value);
+        this.setState({ login: value });
     }
 
-    changePassword = (event) => {
-        this.setState({ password: event.target.value });
+    changePassword = (value) => {
+        console.log(value);
+        this.setState({ password: value });
     }
 
     logonPost = async () => {
@@ -46,14 +49,11 @@ export default class login extends Component {
         return (
         <div>
             <div>{authorizedStatus}</div>
-            <div>
-                <label>Login:<br/><input type="text" value={this.state.login} onChange={this.changeLogin}/></label>
-            </div>
-            <div>
-                <label>Password:<br/><input type="password" value={this.state.password} onChange={this.changePassword}/></label>
-            </div>
-            <div>
-                <input type="button" value="Logon" onClick={this.logonPost}/>
+            <TextInput type="text" caption="Логин" onChangeValue={this.changeLogin}/>
+            <TextInput type="pasword" caption="Пароль" onChangeValue={this.changePassword}/>
+            <div className="row">
+                <div></div>
+                <div><input type="button" value="Logon" onClick={this.logonPost}/></div>
             </div>
         </div>
         )

@@ -19,13 +19,20 @@ app.use(function(req, res, next) {
     next();
 });
 
-// Этот метод принимает от клиента данные методом POST, url обращения выглядит так http://localhost/login
 app.post('/login', async function(req, res) {
-    let login = req.body.login; // вытаскиваем параметры из запроса
+    let login = req.body.login;
     let password = req.body.password;
     let result = await authorization.login(login, password);
-    console.log(result);
     res.send(result);
+});
+
+app.post('/register', async function(req, res) {
+    let login = req.body.login;
+    let password = req.body.password;
+    let name = req.body.name;
+    let email = req.body.email;
+    console.log(login, password, name, email);
+    res.send('');
 });
 
 app.get('/get-roles', function(req, res) {

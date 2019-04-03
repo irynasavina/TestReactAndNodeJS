@@ -5,6 +5,8 @@ import Roles from '../utils/roles';
 import Ajax from '../utils/ajax';
 import Session from '../utils/session';
 
+import '../home/home.css';
+
 class Home extends Component {
     state = {
         isUser: false
@@ -43,7 +45,7 @@ class Home extends Component {
             logout = (<input type="button" value="Logout" onClick={this.logoutHandler}/>);
         }
         return (
-            <div>
+            <div className="home">
                 <h1>Home</h1>
                 {login}
                 {registerForm}

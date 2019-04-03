@@ -1,0 +1,24 @@
+div.row {
+    display: grid;
+    grid-template-columns: 200px 200px;
+    margin: 2px;
+}
+
+
+div.caption, div.control {
+    padding: 5px 5px;
+}
+
+div.caption {
+    background-color: gray;
+    color: azure;
+    text-align: right;
+}
+
+.error {
+    color: red;
+}
+
+.success {
+    color: limegreen;
+}
