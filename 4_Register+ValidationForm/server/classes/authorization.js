@@ -40,5 +40,28 @@ login = async function(login, password) {
     });
 }
 
+register = async function(login, password, name, email) {
+    return new Promise(async (resolve, reject) => {
+        let result = {};
+        try {
+            let passwordHash = utils.cryptoData(password + '::' + login);
+            let response = await mysql.callProcedure('UserCreate', [login, passwordHash, name, email]);
+            let dataset = response[0];
+            if (dataset.length == 1) {
+                result.error = false;
+                let userId = dataset[0].userId;
+                let sessionID = crypto.randomBytes(32).toString('hex');
+                result.sessionID = sessionID;
+                result.roles = ['USR'];
+                result.message = 'Добро пожаловать, ' + name + '!';
+                session.newSession(sessionID, userId, login, result.roles);
+            }
+        } catch (error) {
+            reject(error);
+        }
+        resolve(JSON.stringify(result));
+    });
+}
 
 exports.login = login;
+exports.register = register;

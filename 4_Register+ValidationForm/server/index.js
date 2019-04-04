@@ -31,8 +31,8 @@ app.post('/register', async function(req, res) {
     let password = req.body.password;
     let name = req.body.name;
     let email = req.body.email;
-    console.log(login, password, name, email);
-    res.send('');
+    let result = await authorization.register(login, password, name, email);
+    res.send(result);
 });
 
 app.get('/get-roles', function(req, res) {
