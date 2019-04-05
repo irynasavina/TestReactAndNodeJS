@@ -1,6 +1,6 @@
 div.row {
     display: grid;
-    grid-template-columns: 200px 200px;
+    grid-template-columns: 200px 200px 200px;
     margin: 2px;
 }
 
@@ -21,4 +21,9 @@ div.caption {
 
 .success {
     color: limegreen;
+}
+
+.asterisk {
+    color: yellow;
+    padding: 5px 5px;
 }
