@@ -55,11 +55,8 @@ export default class registerForm extends Component {
         let validEmail = this.requiredField(this.state.email);
         if (validEmail.isValid) {
             let reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-            console.log(reg.test(this.state.email));
             if (!reg.test(this.state.email)) {
-                console.log(111);
                 validEmail = { isValid: false, message: "Некорректный e-mail" }
-                console.log(validEmail);
             }
         }
         this.setState({ loginState: validLogin, passwordState: validPassword, confirmPasswordState: validConfirmPassword, emailState: validEmail });
