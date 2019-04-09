@@ -38,23 +38,16 @@ export default class registerForm extends Component {
         this.setState({ email: event.target.value });
     }
 
-    requiredField = (field) => {
-        if (field == '') {
-            return { isValid: false, message: "Обязательное поле" };
-        }
-        return { isValid: true, message: "" }
-    }
-
     clickRegister = async () => {
-        let validLogin = this.requiredField(this.state.login);
-        let validPassword = this.requiredField(this.state.password);
-        let validConfirmPassword = this.requiredField(this.state.confirmPassword);
-        if (validConfirmPassword.isValid && this.state.password != this.state.confirmPassword) {
+        let validLogin = TextInput.requiredField(this.state.login);
+        let validPassword = TextInput.requiredField(this.state.password);
+        let validConfirmPassword = TextInput.requiredField(this.state.confirmPassword);
+        if (validConfirmPassword.isValid && this.state.password !== this.state.confirmPassword) {
             validConfirmPassword = { isValid: false, message: "Пароль и подтверждение должны совпадать" }
         }
-        let validEmail = this.requiredField(this.state.email);
+        let validEmail = TextInput.requiredField(this.state.email);
         if (validEmail.isValid) {
-            let reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+            let reg = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/;
             if (!reg.test(this.state.email)) {
                 validEmail = { isValid: false, message: "Некорректный e-mail" }
             }
@@ -80,7 +73,7 @@ export default class registerForm extends Component {
                 <TextInput caption="Пароль" required={true} state={this.state.passwordState} type="password" onChangeValue={this.changePassword}/>
                 <TextInput caption="Подтвердите пароль" required={true}  state={this.state.confirmPasswordState} type="password" onChangeValue={this.changeConfirmPassword}/>
                 <TextInput caption="Имя" state={this.state.nameState} type="text" onChangeValue={this.changeName}/>
-                <TextInput caption="E-mail" state={this.state.emailState} required={true} state={this.state.emailState} type="email" onChangeValue={this.changeEmail}/>
+                <TextInput caption="E-mail" state={this.state.emailState} required={true} type="email" onChangeValue={this.changeEmail}/>
                 <div className="row">
                     <div></div>
                     <div><input type="button" value="Регистрация" onClick={this.clickRegister}/></div>

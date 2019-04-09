@@ -3,10 +3,16 @@ import React, { Component } from 'react';
 import '../style.css';
 
 export default class textInput extends Component {
-    
+    static requiredField = (field) => {
+        if (field === '') {
+            return { isValid: false, message: "Обязательное поле" };
+        }
+        return { isValid: true, message: "" }
+    }
+
     render() {
         let errorMessage = null;
-        if (this.props.state != undefined && this.props.state.isValid == false) {
+        if (this.props.state !== undefined && this.props.state.isValid === false) {
             errorMessage = this.props.state.message;
         }
         let asterisk = (this.props.required)? (<span className="asterisk">*</span>) : null;
