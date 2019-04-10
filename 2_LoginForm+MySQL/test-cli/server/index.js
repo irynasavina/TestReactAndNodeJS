@@ -54,7 +54,5 @@ app.post('/login', async function(req, res) {
 app.listen(app.get('port'),
     function() {
         console.log('Server started: http://localhost:' + app.get('port') + '/');
-        //let data = "do shash'owania";
-        //console.log(crypto.createHash('md5').update(data).digest("hex"));
     }
 );
