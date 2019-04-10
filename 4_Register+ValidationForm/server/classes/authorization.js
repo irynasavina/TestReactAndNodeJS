@@ -75,7 +75,6 @@ register = async function(login, password, name, email) {
                     result.error = true;
                     result.messages.push(`E-mail '${email}' уже используется`);
                 }
-                console.log(result);
                 if (!result.error) {
                     // Регистрация
                     let passwordHash = utils.cryptoData(password + '::' + login);

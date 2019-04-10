@@ -15,14 +15,11 @@ class App extends Component {
     }
     
     async componentWillMount() {
-        console.log('app: componentWillMount');
         let roles = await Roles.getRoles();
-        console.log(roles);
         this.setState({ roles: roles });
     }
 
     loginHandler = (roles) => {
-        console.log('app loginHandler');
         this.setState({ roles: roles });
     }
     

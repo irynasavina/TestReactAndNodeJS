@@ -9,7 +9,9 @@ export default class login extends Component {
         login: "", 
         password: "",
         authorized: null,
-        message: ""
+        message: "",
+        loginState: { isValid: true, message: "" },
+        passwordState: { isValid: true, message: "" },
     }
     
     changeLogin = (event) => {
@@ -21,15 +23,20 @@ export default class login extends Component {
     }
 
     logonPost = async () => {
-        try {
-            let response = await Ajax.post('login', 'login=' + encodeURIComponent(this.state.login) + '&password=' + encodeURIComponent(this.state.password));
-            let data = JSON.parse(response);
-            this.setState({ authorized: !data.error, message: data.message });
-            if (this.props.onLogin) {
-                this.props.onLogin(data.roles, data.sessionID, data.message);
+        let validLogin = TextInput.requiredField(this.state.login);
+        let validPassword = TextInput.requiredField(this.state.password);
+        this.setState({ loginState: validLogin, passwordState: validPassword });
+        if (validLogin.isValid && validPassword.isValid) {
+            try {
+                let response = await Ajax.post('login', 'login=' + encodeURIComponent(this.state.login) + '&password=' + encodeURIComponent(this.state.password));
+                let data = JSON.parse(response);
+                this.setState({ authorized: !data.error, message: data.message });
+                if (this.props.onLogin) {
+                    this.props.onLogin(data.roles, data.sessionID, data.message);
+                }
+            } catch (error) {
+                console.error(error)
             }
-        } catch (error) {
-            console.error(error)
         }
     }
     
@@ -44,8 +51,8 @@ export default class login extends Component {
         return (
         <div>
             <div>{authorizedStatus}</div>
-            <TextInput type="text" caption="Логин" onChangeValue={this.changeLogin}/>
-            <TextInput type="password" caption="Пароль" onChangeValue={this.changePassword}/>
+            <TextInput type="text" required={true} caption="Логин" state={this.state.loginState} onChangeValue={this.changeLogin}/>
+            <TextInput type="password" required={true} caption="Пароль" state={this.state.passwordState} onChangeValue={this.changePassword}/>
             <div className="row">
                 <div></div>
                 <div><input type="button" value="Logon" onClick={this.logonPost}/></div>

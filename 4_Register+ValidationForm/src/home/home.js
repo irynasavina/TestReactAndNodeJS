@@ -21,9 +21,11 @@ class Home extends Component {
     }
 
     loginHandler = (roles, sessionID, message) => {
-        const cookies = new Cookies();
-        cookies.set('sessionID', sessionID, { path: '/' });
-        this.setState({ isUser: roles.includes('USR'), welcomeMessage: message });
+        if (roles !== undefined) {
+            const cookies = new Cookies();
+            cookies.set('sessionID', sessionID, { path: '/' });
+            this.setState({ isUser: roles.includes('USR'), welcomeMessage: message });
+        }
         if (this.props.onLogin) {
             this.props.onLogin(roles)
         }
