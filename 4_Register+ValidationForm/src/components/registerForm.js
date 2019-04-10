@@ -16,6 +16,7 @@ export default class registerForm extends Component {
         passwordState: { isValid: true, message: "" },
         confirmPasswordState: { isValid: true, message: "" },
         emailState: { isValid: true, message: "" },
+        formErrorMessage: null
     }
 
     changeLogin = (event) => {
@@ -62,13 +63,21 @@ export default class registerForm extends Component {
                 if (this.props.onLogin) {
                     this.props.onLogin(data.roles, data.sessionID, data.message);
                 }
+            } else {
+                let message = data.messages.map(function(text, index) {
+                    return (
+                      <div className='error' key={index}>{text}</div>
+                    )
+                });
+                this.setState({ formErrorMessage: message });
+        
             }
-            console.log(response);
         }
     }
     render() {
         return (
             <div className="form">
+                {this.state.formErrorMessage}
                 <TextInput caption="Логин" required={true} state={this.state.loginState} type="text" value={this.state.login} onChangeValue={this.changeLogin}/>
                 <TextInput caption="Пароль" required={true} state={this.state.passwordState} type="password" onChangeValue={this.changePassword}/>
                 <TextInput caption="Подтвердите пароль" required={true}  state={this.state.confirmPasswordState} type="password" onChangeValue={this.changeConfirmPassword}/>

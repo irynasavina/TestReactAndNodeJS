@@ -31,7 +31,7 @@ app.post('/register', async function(req, res) {
     let password = req.body.password;
     let name = req.body.name;
     let email = req.body.email;
-    let result = await authorization.register(login, password, name, email);
+   let result = await authorization.register(login, password, name, email);
     res.send(result);
 });
 
