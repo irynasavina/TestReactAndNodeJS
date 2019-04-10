@@ -1,12 +1,30 @@
-const session = new Map();
+const sessions = new Map();
 
 newSession = function (sessionID, userId, login, roles) {
-    session.set(sessionID, { userId: userId, login: login, roles: roles });
+    sessions.set(sessionID, { userId: userId, login: login, roles: roles, lastGet: new Date() });
 }
 
 getSession = function (sessionID) {
-    return session.get(sessionID);
+    let session = sessions.get(sessionID);
+    if (session != undefined) {
+        session.lastGet = new Date();
+        console.log(sessions);
+    }
+    return session;
 }
+
+checkSessions = function () {
+    let now = new Date().getTime();
+    sessions.forEach(function(session, sessionID) {
+        if (now - session.lastGet.getTime() > 1000 * 60 * 60) {
+            console.log('Session for remove', session);
+            removeSession(sessionID);
+            console.log(sessions);
+        }
+    })
+}
+
+let timer = setInterval(checkSessions, 60 * 1000);
 
 getSessionRoles = function(sessionID) {
     let result = {};
@@ -22,9 +40,9 @@ getSessionRoles = function(sessionID) {
 
 removeSession = function(sessionID) {
     let result = {};
-    if (session.has(sessionID)) {
+    if (sessions.has(sessionID)) {
         result.error = false;
-        session.delete(sessionID);
+        sessions.delete(sessionID);
     } else {
         result.error = true;
     }
