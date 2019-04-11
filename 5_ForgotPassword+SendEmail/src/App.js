@@ -7,6 +7,8 @@ import { Route } from 'react-router';
 import AdminHome from './admin/home';
 import ForumHome from './forum/home';
 import Home from './home/home';
+import ForgotPassword from './home/forgotPassword';
+
 import Roles from './utils/roles';
 
 class App extends Component {
@@ -24,24 +26,26 @@ class App extends Component {
     }
     
     render() {
-        let menu = null;
+        let forum = null;
+        let admin = null;
         if (this.state.roles) {
-            let forum = (this.state.roles.includes('USR'))? ( <li><Link to="/forum">Forum</Link></li> ) : null;
-            let admin = (this.state.roles.includes('ADM'))? ( <li><Link to="/admin">Admin</Link></li> ) : null;
-            menu = (
-                <menu>
-                    <ul>
-                        <li><Link to="/">Home</Link></li>
-                        {forum}
-                        {admin}
-                    </ul>
-                </menu>
-            )
+            forum = (this.state.roles.includes('USR'))? ( <li><Link to="/forum">Forum</Link></li> ) : null;
+            admin = (this.state.roles.includes('ADM'))? ( <li><Link to="/admin">Admin</Link></li> ) : null;
         }
+        let menu = (
+            <menu>
+                <ul>
+                    <li><Link to="/">Home</Link></li>
+                    {forum}
+                    {admin}
+                </ul>
+            </menu>
+        )
         return (
             <div className="App">
                 {menu}
                 <Route path="/" exact render={() => <Home onLogin={this.loginHandler} />}/>
+                <Route path="/forgotPassword" component={ForgotPassword}/>
                 <Route path="/forum" component={ForumHome}/>
                 <Route path="/admin" component={AdminHome}/>
                 <div>
