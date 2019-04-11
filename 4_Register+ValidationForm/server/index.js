@@ -1,6 +1,7 @@
 const express = require('express'); // Библиотека экспресс, очень много упрощает
 const bodyParser = require('body-parser'); // Этот модуль нужен для расшифровки параметров, переданных от клиента методом POST
 const authorization = require('./classes/authorization');
+const email = require('./classes/email');
 
 const session = require('./classes/session');
 const utils = require('./classes/utils');
@@ -44,6 +45,13 @@ app.get('/get-roles', function(req, res) {
 
 app.get('/logout', function(req, res) {
     let result = session.removeSession(req.query.sessionID);
+    res.writeHead(200, {"Content-Type": "text/json; charset=utf-8"});
+    res.write(JSON.stringify(result));
+    res.end();
+});
+
+app.get('/send-email', async function(req, res) {
+    let result = await email.sendEMail('irynasavina@gmail.com', 'Test Email', 'Test Email body');
     res.writeHead(200, {"Content-Type": "text/json; charset=utf-8"});
     res.write(JSON.stringify(result));
     res.end();
