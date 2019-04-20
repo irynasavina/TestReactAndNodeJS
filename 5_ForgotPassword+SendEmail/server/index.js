@@ -32,21 +32,21 @@ app.post('/register', async function(req, res) {
     let password = req.body.password;
     let name = req.body.name;
     let email = req.body.email;
-   let result = await authorization.register(login, password, name, email);
+    let result = await authorization.register(login, password, name, email);
     res.send(result);
 });
 
 app.get('/get-roles', function(req, res) {
     let result = session.getSessionRoles(req.query.sessionID);
     res.writeHead(200, {"Content-Type": "text/json; charset=utf-8"});
-    res.write(JSON.stringify(result));
+    res.write(result);
     res.end();
 });
 
 app.get('/logout', function(req, res) {
     let result = session.removeSession(req.query.sessionID);
     res.writeHead(200, {"Content-Type": "text/json; charset=utf-8"});
-    res.write(JSON.stringify(result));
+    res.write(result);
     res.end();
 });
 
@@ -57,10 +57,10 @@ app.get('/send-email', async function(req, res) {
     res.end();
 });
 
-app.post('/forgot-password', function(req, res) {
+app.post('/forgot-password', async function(req, res) {
     let email = req.body.email;
-    console.log(email);
-    res.send({ 'error': false });
+    let result = await authorization.forgotPassword(email);
+    res.send(result);
 });
 
 app.listen(app.get('port'),

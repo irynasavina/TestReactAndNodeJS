@@ -35,7 +35,7 @@ getSessionRoles = function(sessionID) {
     } else {
         result.error = true
     }
-    return result;
+    return JSON.stringify(result);
 }
 
 removeSession = function(sessionID) {
@@ -46,7 +46,7 @@ removeSession = function(sessionID) {
     } else {
         result.error = true;
     }
-    return result;
+    return JSON.stringify(result);
 }
 
 exports.newSession = newSession;

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import TextInput from '../components/controls/textInput';
+import EmailInput from '../components/controls/emailInput';
 import '../components/style.css';
 import Ajax from '../utils/ajax';
 
@@ -48,10 +49,7 @@ export default class registerForm extends Component {
         }
         let validEmail = TextInput.requiredField(this.state.email);
         if (validEmail.isValid) {
-            let reg = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/;
-            if (!reg.test(this.state.email)) {
-                validEmail = { isValid: false, message: "Некорректный e-mail" }
-            }
+            validEmail = EmailInput.checkEmailFormat(this.state.email);
         }
         this.setState({ loginState: validLogin, passwordState: validPassword, confirmPasswordState: validConfirmPassword, emailState: validEmail });
         let validForm = validLogin.isValid && validPassword.isValid && validConfirmPassword.isValid && validEmail.isValid;
@@ -82,7 +80,7 @@ export default class registerForm extends Component {
                 <TextInput caption="Пароль" required={true} state={this.state.passwordState} type="password" onChangeValue={this.changePassword}/>
                 <TextInput caption="Подтвердите пароль" required={true}  state={this.state.confirmPasswordState} type="password" onChangeValue={this.changeConfirmPassword}/>
                 <TextInput caption="Имя" state={this.state.nameState} type="text" onChangeValue={this.changeName}/>
-                <TextInput caption="E-mail" state={this.state.emailState} required={true} type="email" onChangeValue={this.changeEmail}/>
+                <EmailInput caption="E-mail" state={this.state.emailState} required={true} type="email" onChangeValue={this.changeEmail}/>
                 <div className="row">
                     <div></div>
                     <div><input type="button" value="Регистрация" onClick={this.clickRegister}/></div>

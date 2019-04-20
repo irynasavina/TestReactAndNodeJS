@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import '../components/style.css';
-import TextInput from '../components/controls/textInput';
+import EmailInput from '../components/controls/emailInput';
 import Ajax from '../utils/ajax';
 
 export default class ForgotPassword extends Component {
@@ -17,12 +17,9 @@ export default class ForgotPassword extends Component {
     }
 
     clickSend= async () => {
-        let validEmail = TextInput.requiredField(this.state.email);
+        let validEmail = EmailInput.requiredField(this.state.email);
         if (validEmail.isValid) {
-            let reg = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/;
-            if (!reg.test(this.state.email)) {
-                validEmail = { isValid: false, message: "Некорректный e-mail" }
-            }
+            validEmail = EmailInput.checkEmailFormat(this.state.email);
         }
         this.setState({  emailState: validEmail });
         if (validEmail.isValid) {
@@ -32,13 +29,7 @@ export default class ForgotPassword extends Component {
                 console.log(data);
                 this.setState({ isComplete: true })
             } else {
-                let message = data.messages.map(function(text, index) {
-                    return (
-                      <div className='error' key={index}>{text}</div>
-                    )
-                });
-                this.setState({ formErrorMessage: message });
-        
+                this.setState({ formErrorMessage: <div className='error'>{data.message}</div> });
             }        
         }
     }
@@ -49,7 +40,7 @@ export default class ForgotPassword extends Component {
                 <div>Введите e-mail адрес, который Вы указали при регистрации. Вам буду отправлены инструкции по восстановлению пароля</div>
                 <div className="form">
                     {this.state.formErrorMessage}
-                    <TextInput caption="E-mail" state={this.state.emailState} required={true} type="email" onChangeValue={this.changeEmail}/>
+                    <EmailInput caption="E-mail" state={this.state.emailState} required={true} type="email" onChangeValue={this.changeEmail}/>
                     <div className="row">
                         <div></div>
                         <div><input type="button" value="Отослать" onClick={this.clickSend}/></div>

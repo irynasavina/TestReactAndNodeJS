@@ -98,5 +98,28 @@ register = async function(login, password, name, email) {
     });
 }
 
+forgotPassword = async (email) => {
+    return new Promise(async (resolve, reject) => {
+        let result = {};
+        if (email == '') {
+            result.error = true;
+            result.message = 'E-mail обязателей'
+        } else {
+            let response = await mysql.callProcedure('ValidateUserEmail', [email]);
+            let dataset = response[0];
+            if (dataset.length == 1) {
+                result.error = false;
+                let userId = dataset[0].id;
+                console.log(userId);
+            } else {
+                result.error = true;
+                result.message = "E-mail не найден"
+            }
+        }
+        resolve(JSON.stringify(result))
+    })
+}
+
 exports.login = login;
 exports.register = register;
+exports.forgotPassword = forgotPassword;
