@@ -57,6 +57,12 @@ app.get('/send-email', async function(req, res) {
     res.end();
 });
 
+app.post('/forgot-password', function(req, res) {
+    let email = req.body.email;
+    console.log(email);
+    res.send({ 'error': false });
+});
+
 app.listen(app.get('port'),
     function() {
         console.log('Server started: http://localhost:' + app.get('port') + '/');
