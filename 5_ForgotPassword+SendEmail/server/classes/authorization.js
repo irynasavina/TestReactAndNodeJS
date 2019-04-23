@@ -3,6 +3,7 @@ const crypto = require('crypto');
 const mysql = require('../classes/mysql');
 const utils = require('../classes/utils');
 const session = require('../classes/session');
+const emailUtils = require('../classes/email');
 
 login = async function(login, password) {
     return new Promise(async (resolve, reject) => {
@@ -108,9 +109,18 @@ forgotPassword = async (email) => {
             let response = await mysql.callProcedure('ValidateUserEmail', [email]);
             let dataset = response[0];
             if (dataset.length == 1) {
-                result.error = false;
                 let userId = dataset[0].id;
-                console.log(userId);
+                let token = crypto.randomBytes(64).toString('hex');
+                console.log(userId, token);
+                await mysql.callProcedure('UserCreatePasswordToken', [userId, token]);
+                let r = await emailUtils.sendEMail(email, 'Восстановление забытого пароля', '<div>Для восстановление пароля перейдите по <a href="' +
+                  'http://localhost:3007/resore-password?token=' + token + '"">ссылке</a></div>');
+                if (!r.error) {
+                    result.error = false;
+                } else {
+                    result.error = true;
+                    result.message = "Не удалось отправить e-mail"
+                }
             } else {
                 result.error = true;
                 result.message = "E-mail не найден"
