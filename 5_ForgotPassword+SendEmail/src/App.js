@@ -8,6 +8,7 @@ import AdminHome from './admin/home';
 import ForumHome from './forum/home';
 import Home from './home/home';
 import ForgotPassword from './home/forgotPassword';
+import RestorePassword from './home/restorePassword';
 
 import Roles from './utils/roles';
 
@@ -46,6 +47,7 @@ class App extends Component {
                 {menu}
                 <Route path="/" exact render={() => <Home onLogin={this.loginHandler} />}/>
                 <Route path="/forgotPassword" component={ForgotPassword}/>
+                <Route path="/restorePassword/:token" component={RestorePassword}/>
                 <Route path="/forum" component={ForumHome}/>
                 <Route path="/admin" component={AdminHome}/>
                 <div>

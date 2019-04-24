@@ -111,10 +111,9 @@ forgotPassword = async (email) => {
             if (dataset.length == 1) {
                 let userId = dataset[0].id;
                 let token = crypto.randomBytes(64).toString('hex');
-                console.log(userId, token);
                 await mysql.callProcedure('UserCreatePasswordToken', [userId, token]);
-                let r = await emailUtils.sendEMail(email, 'Восстановление забытого пароля', '<div>Для восстановление пароля перейдите по <a href="' +
-                  'http://localhost:3007/resore-password?token=' + token + '"">ссылке</a></div>');
+                let r = await emailUtils.sendEMail(email, 'Восстановление забытого пароля', '<div>Для восстановления пароля перейдите по <a href="' +
+                  'http://localhost:3007/restorePassword/' + token + '"">ссылке</a></div>');
                 if (!r.error) {
                     result.error = false;
                 } else {

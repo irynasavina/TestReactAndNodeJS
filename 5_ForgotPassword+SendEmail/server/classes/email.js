@@ -17,7 +17,6 @@ sendEMail = function (to, subject, text) {
             subject: subject
             }, function(err, message) {
                 if (!err) {
-                    console.log(message)
                     resolve({ error: false });
                 } else {
                     resolve({ error: true, err: err });

@@ -63,6 +63,12 @@ app.post('/forgot-password', async function(req, res) {
     res.send(result);
 });
 
+app.post('/update-password', function(req, res){
+    let password = req.body.password;
+    console.log(password);
+    res.send({ "error": false})
+})
+
 app.listen(app.get('port'),
     function() {
         console.log('Server started: http://localhost:' + app.get('port') + '/');
